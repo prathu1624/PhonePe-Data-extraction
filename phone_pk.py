@@ -336,9 +336,7 @@ pin_df = pd.DataFrame(pin_cl)
 
 #Inserting csv files into postgresql
 
-
 conn_string = conn_string = "postgresql://postgres:prathu123@localhost:5432/guvi_phonepe"
-
 
 
 
@@ -352,15 +350,11 @@ conn = db.connect()
 # df.to_sql('agg_trans', con = conn, if_exists='replace', index = False)
 
 
-# In[ ]:
-
 
 # #agg_users table
 # df = pd.read_csv("G:/GUVI_ZEN_PY/pYTHON/PhonePe/csv/agg_user.csv")
 # df.to_sql('agg_user', con = conn, if_exists='replace', index = False)
 
-
-# In[ ]:
 
 
 # # map_trans table
@@ -368,47 +362,10 @@ conn = db.connect()
 # df.to_sql('map_trans', con = conn, if_exists='replace', index = False)
 
 
-# In[ ]:
-
 
 # #map users table
 # df = pd.read_csv("G:/GUVI_ZEN_PY/pYTHON/PhonePe/csv/mapu.csv")
 # df.to_sql('map_user', con = conn, if_exists='replace', index = False)
-
-
-# In[ ]:
-
-
-# #top transaction district
-# df = pd.read_csv("G:/GUVI_ZEN_PY/pYTHON/PhonePe/csv/topdf.csv")
-# df.to_sql('topt_dst', con = conn, if_exists='replace', index = False)
-
-
-# In[ ]:
-
-
-# #top transaction pincode
-# df = pd.read_csv("G:/GUVI_ZEN_PY/pYTHON/PhonePe/csv/topdf_p.csv")
-# df.to_sql('topt_pin', con = conn, if_exists='replace', index = False)
-
-
-# In[ ]:
-
-
-# #top user district
-# df = pd.read_csv("G:/GUVI_ZEN_PY/pYTHON/PhonePe/csv/topu_df.csv")
-# df.to_sql('topu_dist', con = conn, if_exists='replace', index = False)
-
-
-# In[ ]:
-
-
-# #top user pincode
-# df = pd.read_csv("G:/GUVI_ZEN_PY/pYTHON/PhonePe/csv/pin_df.csv")
-# df.to_sql('topu_pin', con = conn, if_exists='replace', index = False)
-
-
-# In[ ]:
 
 
 # #states latitude and longitude 
@@ -416,25 +373,18 @@ conn = db.connect()
 # df.to_sql('state_co', con = conn, if_exists='replace', index = False)
 
 
-# In[ ]:
-
 
 # # districts latitude longitude
 # df = pd.read_csv("G:/GUVI_ZEN_PY/pYTHON/PhonePe/csv/dist_latlon1.csv")
 # df.to_sql('districts', con = conn, if_exists='replace', index = False)
 
 
-# In[ ]:
-
 
 st.title(":violet[PhonePe Data Visualization]")
 st.header(':blue[transaction and user device analysis]')
 
 
-    # In[4]:
-
-
-    #queries to fetch data
+#queries to fetch data
 q1 = 'select * from agg_trans'
 ag_trans = pd.read_sql(q1, con = conn)
 
@@ -448,140 +398,304 @@ q4 = 'select * from map_user'
 map_us = pd.read_sql(q4, con = conn)
 
 q5 = 'select * from state_co'
-state = pd.read_sql(q5, con = conn)
+states = pd.read_sql(q5, con = conn)
 
 q6 = 'select * from districts'
 dist = pd.read_sql(q6, con = conn)
 
 
-    # In[5]:
-
-
-    #data preparation
-state = state.sort_values(by='state')
-state = state.reset_index(drop='True')
-
-agg_tr = ag_trans.groupby(['State']).sum()[['Transaction_count','Transaction_amount']]
-agg_tr = agg_tr.reset_index()
 
 ag_trans.rename(columns={'State':'state'},inplace=True)
-
-    # ch_data = state.copy()
-
-    # for column in agg_tr:
-    #     ch_data[column]=agg_tr[column]
-    # ch_data=ch_data.drop(labels='state', axis=0)
+ag_user.rename(columns={'State':'state'}, inplace=True)
 
 
-    # In[6]:
+
+states = states.sort_values(by='state')
+states = states.reset_index()
+
+
+
+#data preparation
+agg_tr = ag_trans.groupby(['state','Year']).sum()[['Transaction_count','Transaction_amount']]
+agg_tr = agg_tr.reset_index()
+
+agg_usr = ag_user.groupby (['state','Year','Brand']).sum() [['Count','Percentage']]
+agg_usr = agg_usr.reset_index()
+
+
+#ch_data = agg_tr.copy()
+
+
+#for column in agg_tr.columns:
+    #ch_data[column] = agg_tr[column]
+#ch_data = ch_data.drop(labels='state', axis=1)
+
+
+
+state_lst = ['andaman-&-nicobar-islands', 'andhra-pradesh', 'arunachal-pradesh',
+            'assam', 'bihar', 'chandigarh', 'chhattisgarh',
+            'dadra-&-nagar-haveli-&-daman-&-diu', 'delhi', 'goa', 'gujarat',
+            'haryana', 'himachal-pradesh', 'jammu-&-kashmir', 'jharkhand',
+            'karnataka', 'kerala', 'ladakh', 'lakshadweep', 'madhya-pradesh',
+            'maharashtra', 'manipur', 'meghalaya', 'mizoram', 'nagaland',
+            'odisha', 'puducherry', 'punjab', 'rajasthan', 'sikkim',
+            'tamil-nadu', 'telangana', 'tripura', 'uttar-pradesh',
+            'uttarakhand', 'west-bengal']
+
+
+states['state']=pd.Series(data=state_lst)
+
+
+
+
+state_f = pd.merge(ag_trans,states, how='outer',on='state')
+
+userst_f = pd.merge(agg_usr,states, how='outer', on='state')
+
 
 
 map_tr.rename(columns={'district':'District'},inplace=True)
+state_lt = ['Andaman & Nicobar', 'Andhra Pradesh', 'Arunachal Pradesh',
+            'Assam', 'Bihar', 'Chandigarh', 'Chhattisgarh',
+            'Dadra & Nagar Haveli & Daman & Diu', 'Delhi', 'Goa', 'Gujarat',
+            'Haryana', 'Himachal Pradesh', 'Jammu & Kashmir', 'Jharkhand',
+            'Karnataka', 'Kerala', 'Ladakh', 'Lakshadweep', 'Madhya Pradesh',
+            'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland',
+            'Odisha', 'Puducherry', 'Punjab', 'Rajasthan', 'Sikkim',
+            'Tamil Nadu', 'Telangana', 'Tripura', 'Uttar Pradesh',
+            'Uttarakhand', 'West Bengal']
 
 
-    # In[7]:
 
-
-state_lt = ['andaman-&-nicobar-islands',
-     'andhra-pradesh',
-     'arunachal-pradesh',
-     'assam',
-     'bihar',
-     'chandigarh',
-     'chhattisgarh',
-     'dadra-&-nagar-haveli-&-daman-&-diu',
-     'delhi',
-     'goa',
-     'gujarat',
-     'haryana',
-     'himachal-pradesh',
-     'jammu-&-kashmir',
-     'jharkhand',
-     'karnataka',
-     'kerala',
-     'ladakh',
-     'lakshadweep',
-     'madhya-pradesh',
-     'maharashtra',
-     'manipur',
-     'meghalaya',
-     'mizoram',
-     'nagaland',
-     'odisha',
-     'puducherry',
-     'punjab',
-     'rajasthan',
-     'sikkim',
-     'tamil-nadu',
-     'telangana',
-     'tripura',
-     'uttar-pradesh',
-     'uttarakhand',
-     'west-bengal']
-
-
-    # In[10]:
-
-
-agg_tr['state'] = pd.Series(data=state_lt)
-states_f = pd.merge(ag_trans, state,how='outer',on='state')
 
 
 
 dist_f = pd.merge(map_tr, dist, how='outer', on=['State','District'])
+user_dist = pd.merge(map_us, dist, how = 'outer', on=['State','District'])
 
 
 
-    #Streamlit tabs for transaction and user analysis
-transaction_analysis, user_analysis = st.tabs(['Transaction_analysis','User_analysis'])
+#Streamlit tabs for transaction and user analysis
+transaction_analysis, user_analysis , payment_types, device_analysis = st.tabs(['Transaction_analysis','User_analysis','Payment types','Device Analysis'])
 
 
-    # In[15]:
 
-
-    #transaction analysis
+# transaction analysis
 with transaction_analysis:
+
     st.subheader(':violet[Transaction analysis: state and district wise]')
-        
+
     st.write('')
     Year=st.radio('Please select the year',('2018','2019','2020','2021','2022'), horizontal=True)
-        
+
     st.write('')
     Quarter=st.radio('Please select the quarter',('1','2','3','4'),horizontal=True)
-        
+
     st.write('')
     Year=int(Year)
     Quarter=int(Quarter)
-        
-    state_plot= states_f[(states_f['Year']==Year)&(states_f['Quarter']==Quarter)]
+    state_plot = state_f[(state_f['Year']==Year)&(state_f['Quarter']==Quarter)]
     dist_plot = dist_f[(dist_f['Year']==Year)&(dist_f['Quarter']==Quarter)]
-        
-        
+
+    state_plotf = state_plot.groupby(['state','Year','Quarter','Latitude','Longitude']).sum()
+    state_plotf = state_plotf.reset_index()
+
+    
+    state_plotf['state'] = state_plotf['state'].replace(['andaman-&-nicobar-islands', 'andhra-pradesh', 'arunachal-pradesh',
+            'assam', 'bihar', 'chandigarh', 'chhattisgarh',
+            'dadra-&-nagar-haveli-&-daman-&-diu', 'delhi', 'goa', 'gujarat',
+            'haryana', 'himachal-pradesh', 'jammu-&-kashmir', 'jharkhand',
+            'karnataka', 'kerala', 'ladakh', 'lakshadweep', 'madhya-pradesh',
+            'maharashtra', 'manipur', 'meghalaya', 'mizoram', 'nagaland',
+            'odisha', 'puducherry', 'punjab', 'rajasthan', 'sikkim',
+            'tamil-nadu', 'telangana', 'tripura', 'uttar-pradesh',
+            'uttarakhand', 'west-bengal'], ['Andaman & Nicobar', 'Andhra Pradesh', 'Arunachal Pradesh',
+            'Assam', 'Bihar', 'Chandigarh', 'Chhattisgarh',
+            'Dadra & Nagar Haveli & Daman & Diu', 'Delhi', 'Goa', 'Gujarat',
+            'Haryana', 'Himachal Pradesh', 'Jammu & Kashmir', 'Jharkhand',
+            'Karnataka', 'Kerala', 'Ladakh', 'Lakshadweep', 'Madhya Pradesh',
+            'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland',
+            'Odisha', 'Puducherry', 'Punjab', 'Rajasthan', 'Sikkim',
+            'Tamil Nadu', 'Telangana', 'Tripura', 'Uttar Pradesh',
+            'Uttarakhand', 'West Bengal'])
+    
+    
+    
+    
+
+    indian_st = json.load(open('G:/GUVI_ZEN_PY/pYTHON/PhonePe/ind_st.json','r'))
+    
+    fig_1 = px.scatter_geo(state_plotf, lon=state_plotf['Longitude'],
+                           lat=state_plotf['Latitude'],color=state_plotf['Transaction_amount'],
+                           size=state_plotf['Transaction_count'], hover_name="state",
+                           hover_data=['state','Transaction_amount','Transaction_count','Year','Quarter'],
+                           title='state',size_max=22)
+    fig_1.update_traces(marker={'color':"violet", 'line_width':1})
+
+    fig_2 = px.scatter_geo(dist_plot, lon=dist_plot['Longitude'], lat = dist_plot['Latitude'],
+                           color=dist_plot['Amount'],size=dist_plot['Count'],hover_name='District',
+                           hover_data=['District','Amount','Count','Year','Quarter'], title='District', size_max=22)
+                           
+
+    fig = px.choropleth(
+          state_plotf,
+          #geojson="https://gist.githubusercontent.com/jbrobst/56c13bbbf9d97d187fea01ca62ea5112/raw/e388c4cae20aa53cb5090210a42ebb9b765c0a36/india_states.geojson",
+          geojson=indian_st,
+          featureidkey='properties.ST_NM',
+          locations='state',
+          scope='asia',
+          color='Transaction_amount',
+          color_continuous_scale='agsunset',
+          hover_data=['Transaction_count', 'Transaction_amount'])
 
 
-    # In[14]:
+
+    fig.update_geos(fitbounds="locations", visible=False)
+    fig.add_trace(fig_1.data[0])
+    fig.add_trace(fig_2.data[0])
+    fig.update_layout(height=1000,width=1000)
+    st.plotly_chart(fig)
+
+with user_analysis:
+    st.subheader(':violet[User Analysis : Registered Users and App opens]')
+    st.write('')
+    Year=st.radio('Please select the year',('2022','2021','2020','2019','2018'), horizontal=True)
+
+    st.write('')
+    Quarter=st.radio('Please select the quarter',('4','3','2','1'),horizontal=True)
+    
+
+    st.write('')
+    Year=int(Year)
+    #Quarter=int(Quarter)
+    userst_plot = userst_f[(userst_f['Year']==Year)]#&(userst_f['Quarter']==Quarter)]
+    userdt_plot = user_dist[(user_dist['year']==Year)]#&(user_dist['Quarter']==Quarter)]
+
+    userst_plotf = userst_plot.groupby(['state','Year','Brand','Latitude','Longitude']).sum()
+    userst_plotf = userst_plotf.reset_index()
 
 
-    state_plot_f = state_plot.groupby(['state','Year','Quarter','Latitude','Longitude']).sum()
-    state_plot_f = state_plot_f.reset_index()
+    userst_plotf['state'] = userst_plotf['state'].replace(['andaman-&-nicobar-islands', 'andhra-pradesh', 'arunachal-pradesh',
+            'assam', 'bihar', 'chandigarh', 'chhattisgarh',
+            'dadra-&-nagar-haveli-&-daman-&-diu', 'delhi', 'goa', 'gujarat',
+            'haryana', 'himachal-pradesh', 'jammu-&-kashmir', 'jharkhand',
+            'karnataka', 'kerala', 'ladakh', 'lakshadweep', 'madhya-pradesh',
+            'maharashtra', 'manipur', 'meghalaya', 'mizoram', 'nagaland',
+            'odisha', 'puducherry', 'punjab', 'rajasthan', 'sikkim',
+            'tamil-nadu', 'telangana', 'tripura', 'uttar-pradesh',
+            'uttarakhand', 'west-bengal'], ['Andaman & Nicobar', 'Andhra Pradesh', 'Arunachal Pradesh',
+            'Assam', 'Bihar', 'Chandigarh', 'Chhattisgarh',
+            'Dadra & Nagar Haveli & Daman & Diu', 'Delhi', 'Goa', 'Gujarat',
+            'Haryana', 'Himachal Pradesh', 'Jammu & Kashmir', 'Jharkhand',
+            'Karnataka', 'Kerala', 'Ladakh', 'Lakshadweep', 'Madhya Pradesh',
+            'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland',
+            'Odisha', 'Puducherry', 'Punjab', 'Rajasthan', 'Sikkim',
+            'Tamil Nadu', 'Telangana', 'Tripura', 'Uttar Pradesh',
+            'Uttarakhand', 'West Bengal'])
+    
+    indian_st = json.load(open('G:/GUVI_ZEN_PY/pYTHON/PhonePe/ind_st.json','r'))
 
+    fig_3 = px.scatter_geo(userst_plotf, lon=userst_plotf['Longitude'],
+                           lat=userst_plotf['Latitude'],color=userst_plotf['Count'],
+                           size=userst_plotf['Percentage'], hover_name="state",
+                           hover_data=['state','Brand','Count','Percentage','Year'],
+                           title='state',size_max=22)
+    fig_3.update_traces(marker={'color':"violet", 'line_width':1})
 
-    # In[12]:
+    fig_4 = px.scatter_geo(userdt_plot, lon=userdt_plot['Longitude'], lat = userdt_plot['Latitude'],
+                           color=userdt_plot['Registeredusers'],size=userdt_plot['Registeredusers'],hover_name='District',
+                           hover_data=['District','Registeredusers','Appopens','year','Quarter'], title='District', size_max=22)
+    
 
+    fig_5 = px.choropleth(
+          userst_plotf,
+          #geojson="https://gist.githubusercontent.com/jbrobst/56c13bbbf9d97d187fea01ca62ea5112/raw/e388c4cae20aa53cb5090210a42ebb9b765c0a36/india_states.geojson",
+          geojson=indian_st,
+          featureidkey='properties.ST_NM',
+          locations='state',
+          scope='asia',
+          color='Count',
+          color_continuous_scale='viridis',
+          hover_data=['Count', 'Percentage'])
 
-    st_codes = ['AN', 'AD', 'AR', 'AS', 'BR', 'CH', 'CG', 'DNHDD', 'DL', 'GA',
-                      'GJ', 'HR', 'HP', 'JK', 'JH', 'KA', 'KL', 'LA', 'LD', 'MP', 'MH',
-                      'MN', 'ML', 'MZ', 'NL', 'OD', 'PY', 'PB', 'RJ', 'SK', 'TN', 'TS',
-                      'TR', 'UP', 'UK', 'WB']
-    state_plot_f['codes']=pd.Series(data = st_codes)
+    
+    fig_5.update_geos(fitbounds="locations", visible=False)
+    fig_5.add_trace(fig_3.data[0])
+    fig_5.add_trace(fig_4.data[0])
+    fig_5.update_layout(height=1000,width=1000)
+    st.plotly_chart(fig_5)
 
+with payment_types:
+    st.subheader(':violet[Analysis according to transaction_types]')
+    pay_query = 'select * from agg_trans'
+    t_type = pd.read_sql(pay_query, con=conn)
+    st.write('')
+    pay_state = st.selectbox('Please select state',('andaman-&-nicobar-islands', 'andhra-pradesh', 'arunachal-pradesh',
+            'assam', 'bihar', 'chandigarh', 'chhattisgarh',
+            'dadra-&-nagar-haveli-&-daman-&-diu', 'delhi', 'goa', 'gujarat',
+            'haryana', 'himachal-pradesh', 'jammu-&-kashmir', 'jharkhand',
+            'karnataka', 'kerala', 'ladakh', 'lakshadweep', 'madhya-pradesh',
+            'maharashtra', 'manipur', 'meghalaya', 'mizoram', 'nagaland',
+            'odisha', 'puducherry', 'punjab', 'rajasthan', 'sikkim',
+            'tamil-nadu', 'telangana', 'tripura', 'uttar-pradesh',
+            'uttarakhand', 'west-bengal'))
 
-    # In[ ]:
+    st.write('')
+    pay_year = int(st.radio('Please select the year',('2022','2021','2020','2019','2018'), horizontal=True, key = 'pay_year'))
+    pay_qtr = int(st.radio('Please select the quarter',('4','3','2','1'),horizontal=True, key = 'pay_qtr'))
 
+    pay_values = st.selectbox('Select values for visualization',('Transaction_count','Transaction_amount'))
 
-    #transaction plot
-    fig = px.scatter_geo(state_plot_f,lon=state_plot_f['Longitude'], lat=state_plot_f['Latitude'], hover_name ='state', hover_data=['state', 'Year','Quarter','Transaction_count', 'Transaction_amount'], title="state", size_max=22)
-    st.plotly_chart(fig)             
+    pay_mode = t_type[(t_type['Year']==pay_year)&(t_type['Quarter']==pay_qtr)&(t_type['State']==pay_state)]
+
+    pie_chart = px.pie(pay_mode,values=pay_values, names = 'Transaction_type',hover_data=['Year'])
+
+    bar_chart = px.bar(pay_mode, x='Transaction_type', y=pay_values,color = 'Transaction_type')
+    
+    st.plotly_chart(pie_chart)
+    st.plotly_chart(bar_chart)
+
+with device_analysis:
+    st.subheader(':violet[Users by device analysis]')
+    user_query = 'select * from agg_user'
+    user_dev = pd.read_sql(user_query, con=conn)
+    
+    st.write('')
+    user_state = st.selectbox('Please select state',('andaman-&-nicobar-islands', 'andhra-pradesh', 'arunachal-pradesh',
+            'assam', 'bihar', 'chandigarh', 'chhattisgarh',
+            'dadra-&-nagar-haveli-&-daman-&-diu', 'delhi', 'goa', 'gujarat',
+            'haryana', 'himachal-pradesh', 'jammu-&-kashmir', 'jharkhand',
+            'karnataka', 'kerala', 'ladakh', 'lakshadweep', 'madhya-pradesh',
+            'maharashtra', 'manipur', 'meghalaya', 'mizoram', 'nagaland',
+            'odisha', 'puducherry', 'punjab', 'rajasthan', 'sikkim',
+            'tamil-nadu', 'telangana', 'tripura', 'uttar-pradesh',
+            'uttarakhand', 'west-bengal'), key='user_state')
+    
+    st.write('')
+    user_yr = int(st.radio('Please select the year',('2022','2021','2020','2019','2018'), horizontal=True, key = 'user_yr'))
+    user_qt = int(st.radio('Please select the quarter',('4','3','3','2','1'), horizontal=True, key = 'user_qt'))
+
+    user_values = st.selectbox('Select values for visualization',('Count','Percentage'))
+
+    u_device = user_dev[(user_dev['Year']==user_yr)&(user_dev['Quarter']==user_qt)&(user_dev['State']==user_state)]
+
+    user_pie = px.pie(u_device,values=user_values, names = 'Brand',hover_data=['Year'])
+
+    user_bar = px.bar(u_device, x='Brand', y=user_values,color = 'Brand')
+    
+    st.plotly_chart(user_pie)
+    st.plotly_chart(user_bar)
+    
+                 
+    
+                           
+
+    
+    
+
+    
+    
+    
+
                              
-
 
