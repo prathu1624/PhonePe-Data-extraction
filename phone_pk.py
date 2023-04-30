@@ -11,7 +11,7 @@ import plotly.express as px
 
 
 #Aggregated transaction state
-path = "G:/GUVI_ZEN_PY/pYTHON/PhonePe/pulse-master/data/aggregated/transaction/country/india/state"
+path = #file_path
 state_lst = os.listdir(path)
 
 cols = {'State': [], 'Year': [], 'Quarter': [], 'Transaction_type': [],
@@ -39,7 +39,7 @@ for i in state_lst:
                 cols['Quarter'].append(int(file.strip('.json')))
                 
 agg_tr = pd.DataFrame(cols)
-# path_csv = 'G:/GUVI_ZEN_PY/pYTHON/PhonePe/csv'
+# path_csv = 'csv_path
 # c_path = os.chdir(path_csv)
 # agg_tr.to_csv("agg_tr.csv")
                 
@@ -49,7 +49,7 @@ agg_tr = pd.DataFrame(cols)
 
 
 #Aggregated transaction Country
-#path = "G:/GUVI_ZEN_PY/pYTHON/PhonePe/pulse-master/data/aggregated/transaction/country/india"
+#path = file_path
 #year_lst = os.listdir(path)
 
 #cols = {'Country': [], 'Year': [], 'Quarter': [], 'Transaction_type': [],
@@ -80,7 +80,7 @@ agg_tr = pd.DataFrame(cols)
 
 
 #aggregated user state
-path = "G:/GUVI_ZEN_PY/pYTHON/PhonePe/pulse-master/data/aggregated/user/country/india/state"
+path = #file_path
 ustate_lst = os.listdir(path)
 
 u_col = {'State':[],'Year':[],'Quarter':[],'Brand':[],'Count':[],'Percentage':[]}
@@ -109,7 +109,7 @@ for i in ustate_lst:
             except:
                 pass
 agg_user = pd.DataFrame(u_col)
-# path_csv = 'G:/GUVI_ZEN_PY/pYTHON/PhonePe/csv'
+# path_csv = 'csv_path'
 # c_path = os.chdir(path_csv)
 # agg_user.to_csv("agg_user.csv")
                 
@@ -119,7 +119,7 @@ agg_user = pd.DataFrame(u_col)
 
 
 # map transaction data state
-path = "G:/GUVI_ZEN_PY/pYTHON/PhonePe/pulse-master/data/map/transaction/hover/country/india/state"
+path = #file_path
 m_state_lst = os.listdir(path)
 m_col = {'State':[],'Year':[],'Quarter':[],'district':[],'Count':[],'Amount':[]}
 for i in m_state_lst:
@@ -147,7 +147,7 @@ for i in m_state_lst:
                 pass
                     
 map_df = pd.DataFrame(m_col)
-# path_csv = 'G:/GUVI_ZEN_PY/pYTHON/PhonePe/csv'
+# path_csv = csv_path
 # c_path = os.chdir(path_csv)
 # map_df.to_csv("map_df.csv")
                     
@@ -157,7 +157,7 @@ map_df = pd.DataFrame(m_col)
 
 
 #map user data state
-path = "G:/GUVI_ZEN_PY/pYTHON/PhonePe/pulse-master/data/map/user/hover/country/india/state"
+path = #file_path
 mu_stlst = os.listdir(path)
 mu_cl = {"State":[],"year":[],"Quarter":[],"District":[],"Registeredusers":[],"Appopens":[]}
 
@@ -186,7 +186,7 @@ for i in mu_stlst:
                 pass
             
 mapu_df = pd.DataFrame(mu_cl)
-# path_csv = 'G:/GUVI_ZEN_PY/pYTHON/PhonePe/csv'
+# path_csv = csv_path
 # c_path = os.chdir(path_csv)
 # mapu_df.to_csv("mapu.csv")
 
@@ -195,7 +195,7 @@ mapu_df = pd.DataFrame(mu_cl)
 
 
 #top transaction data district wise 
-path = "G:/GUVI_ZEN_PY/pYTHON/PhonePe/pulse-master/data/top/transaction/country/india/state"
+path = #file_path
 topst_list = os.listdir(path)
 top_cl = {'State':[],'Year':[],'Quarter':[],'District':[],'Count':[],'Amount':[]}
 
@@ -223,7 +223,7 @@ for i in topst_list:
             except:
                 pass
 topdf = pd.DataFrame(top_cl)
-# path_csv = 'G:/GUVI_ZEN_PY/pYTHON/PhonePe/csv'
+# path_csv = csv_path
 # c_path = os.chdir(path_csv)
 # topdf.to_csv("topdf.csv")
 
@@ -258,7 +258,7 @@ for i in topst_list:
             except:
                 pass
 topdf_p = pd.DataFrame(top_cl)
-# path_csv = 'G:/GUVI_ZEN_PY/pYTHON/PhonePe/csv'
+# path_csv = csv_path
 # c_path = os.chdir(path_csv)
 # topdf_p.to_csv("topdf_p.csv")
 
@@ -267,7 +267,7 @@ topdf_p = pd.DataFrame(top_cl)
 
 
 #top user data district wise
-path = "G:/GUVI_ZEN_PY/pYTHON/PhonePe/pulse-master/data/top/user/country/india/state"
+path = #file_path
 user_lst = os.listdir(path)
 user_cl = {'State':[],'Year':[],'Quarter':[],'Name':[],'RegisteredUsers':[]}
 
@@ -293,7 +293,7 @@ for i in user_lst:
             except:
                 pass
 topu_df = pd.DataFrame(user_cl)
-# path_csv = 'G:/GUVI_ZEN_PY/pYTHON/PhonePe/csv'
+# path_csv = csv_path
 # c_path = os.chdir(path_csv)
 # topu_df.to_csv("topu_df.csv")
 
@@ -302,7 +302,7 @@ topu_df = pd.DataFrame(user_cl)
 
 
 #top user data pincode wise
-path = "G:/GUVI_ZEN_PY/pYTHON/PhonePe/pulse-master/data/top/user/country/india/state"
+path =#file_path
 user_lst = os.listdir(path)
 pin_cl = {'State':[],'Year':[],'Quarter':[],'Pincode':[],'RegisteredUsers':[]}
 
@@ -328,7 +328,7 @@ for i in user_lst:
             except:
                 pass
 pin_df = pd.DataFrame(pin_cl)
-# path_csv = 'G:/GUVI_ZEN_PY/pYTHON/PhonePe/csv'
+# path_csv = csv_path
 # c_path = os.chdir(path_csv)
 # pin_df.to_csv("pin_df.csv")
 
@@ -336,7 +336,7 @@ pin_df = pd.DataFrame(pin_cl)
 
 #Inserting csv files into postgresql
 
-conn_string = conn_string = "postgresql://postgres:prathu123@localhost:5432/guvi_phonepe"
+conn_string = #sql_string
 
 
 
@@ -346,36 +346,36 @@ conn = db.connect()
 
 
 # #agg_trans table
-# df = pd.read_csv("G:/GUVI_ZEN_PY/pYTHON/PhonePe/csv/agg_tr.csv")
+# df = pd.read_csv("agg_tr.csv")
 # df.to_sql('agg_trans', con = conn, if_exists='replace', index = False)
 
 
 
 # #agg_users table
-# df = pd.read_csv("G:/GUVI_ZEN_PY/pYTHON/PhonePe/csv/agg_user.csv")
+# df = pd.read_csv("agg_user.csv")
 # df.to_sql('agg_user', con = conn, if_exists='replace', index = False)
 
 
 
 # # map_trans table
-# df = pd.read_csv("G:/GUVI_ZEN_PY/pYTHON/PhonePe/csv/map_df.csv")
+# df = pd.read_csv("map_df.csv")
 # df.to_sql('map_trans', con = conn, if_exists='replace', index = False)
 
 
 
 # #map users table
-# df = pd.read_csv("G:/GUVI_ZEN_PY/pYTHON/PhonePe/csv/mapu.csv")
+# df = pd.read_csv("mapu.csv")
 # df.to_sql('map_user', con = conn, if_exists='replace', index = False)
 
 
 # #states latitude and longitude 
-# df = pd.read_csv("G:/GUVI_ZEN_PY/pYTHON/PhonePe/csv/state_lat_lon1.csv")
+# df = pd.read_csv("state_lat_lon1.csv")
 # df.to_sql('state_co', con = conn, if_exists='replace', index = False)
 
 
 
 # # districts latitude longitude
-# df = pd.read_csv("G:/GUVI_ZEN_PY/pYTHON/PhonePe/csv/dist_latlon1.csv")
+# df = pd.read_csv("dist_latlon1.csv")
 # df.to_sql('districts', con = conn, if_exists='replace', index = False)
 
 
@@ -421,15 +421,6 @@ agg_tr = agg_tr.reset_index()
 
 agg_usr = ag_user.groupby (['state','Year','Brand']).sum() [['Count','Percentage']]
 agg_usr = agg_usr.reset_index()
-
-
-#ch_data = agg_tr.copy()
-
-
-#for column in agg_tr.columns:
-    #ch_data[column] = agg_tr[column]
-#ch_data = ch_data.drop(labels='state', axis=1)
-
 
 
 state_lst = ['andaman-&-nicobar-islands', 'andhra-pradesh', 'arunachal-pradesh',
@@ -523,7 +514,7 @@ with transaction_analysis:
     
     
 
-    indian_st = json.load(open('G:/GUVI_ZEN_PY/pYTHON/PhonePe/ind_st.json','r'))
+    indian_st = json.load(open('ind_st.json','r'))
     
     fig_1 = px.scatter_geo(state_plotf, lon=state_plotf['Longitude'],
                            lat=state_plotf['Latitude'],color=state_plotf['Transaction_amount'],
