@@ -1,13 +1,18 @@
 # PhonePe-Data-extraction
-Hi! guys, this is my second project in GUVI Data Science Course .
-In this project I have used the github repository for phonepe which contains transaction and user device data from 2018-2022.
-The task was to create a dashboard by extracting this data.
-Tools used are Python, Postgresql and streamlit.
-The basic operation is to extract the data which is in JSON format and convert it to a dataframe.
-This extracted data is then moved to SQL (postgresql) and then fetched to display in the form of a dashboard using streamlit library.
-This program was written in a windows system, so the basic execution is as follows:
-start CMD and enter the path of the python file with extension (.py).
-Then type the command "streamlit run 'file.py'(name of python file)".
-The dashboard in streamlit has four categories : transaction(state and district wise), User analysis, payment type analysis and uder device analysis.
-In category 1 and 2 choropleth maps are used to display the data at their respective longitudes and latitudes.
-Tabs 3 and 4 have pie and bar chart to analyze data based on transaction types and devices used by users.
+Hi! Guys, this is my second project in the GUVI Data Science Course.
+I used PhonePe's GitHub repository, which contains a wealth of transaction and user device data from 2018 to 2022, for this research. Condensing this data into an instructive dashboard was the main objective. For this work, PostgreSQL was used for data storage, Python was used for scripting, and Streamlit was used to create an interactive user interface.
+Data in JSON format is first extracted and then converted into a structured data frame to start the procedure. This data is then arranged and placed in a PostgreSQL database. The last step is retrieving the data and dynamically displaying it on a dashboard with the Streamlit framework.
+Execution of the process is simple on a Windows PC. To launch the dashboard, just open Command Prompt (CMD), locate the directory containing the Python code (with a.py extension), and type the command 'streamlit run file.py'.
+The Streamlit dashboard is thoughtfully structured into four categories:
+
+Transaction Overview (State and District Wise): Utilizing choropleth maps to depict transaction trends based on geographical locations.
+
+User Analysis: Offering insights into user behavior, preferences, and patterns.
+
+Payment Type Analysis: Providing a detailed breakdown of transaction types through pie charts.
+
+User Device Analysis: Presenting data on devices used by users through bar charts.
+
+This streamlined and insightful dashboard is a comprehensive tool for analyzing transactional and user data, enhancing decision-making processes based on the information gleaned from PhonePe's repository.
+
+
