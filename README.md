@@ -1,7 +1,6 @@
 # PhonePe-Data-extraction
-Hi! Guys, this is my second project in the GUVI Data Science Course.
-I used PhonePe's GitHub repository, which contains a wealth of transaction and user device data from 2018 to 2022, for this research. Condensing this data into an instructive dashboard was the main objective. For this work, PostgreSQL was used for data storage, Python was used for scripting, and Streamlit was used to create an interactive user interface.
-Data in JSON format is first extracted and then converted into a structured data frame to start the procedure. This data is then arranged and placed in a PostgreSQL database. The last step is retrieving the data and dynamically displaying it on a dashboard with the Streamlit framework.
+In this project, I have used PhonePe's GitHub repository, which contains a wealth of transaction and user device data from 2018 to 2022, for this research. Condensing this data into an instructive dashboard was the main objective. For this work, PostgreSQL was used for data storage, Python was used for scripting, and Streamlit was used to create an interactive user interface.
+JSON data is extracted and then converted into a structured data frame to start the procedure. This data is then arranged and placed in a PostgreSQL database. The last step is retrieving the data and dynamically displaying it on a dashboard with the Streamlit framework.
 Execution of the process is simple on a Windows PC. To launch the dashboard, just open Command Prompt (CMD), locate the directory containing the Python code (with a.py extension), and type the command 'streamlit run file.py'.
 The Streamlit dashboard is thoughtfully structured into four categories:
 
